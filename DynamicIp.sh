@@ -16,7 +16,7 @@ fi
 
 #get current
 aws route53 list-resource-record-sets --hosted-zone-id $HOSTED_ZONE_ID | \
-jq -r '.ResourceRecordSets[] | select (.Name == "'"$NAME"'") | select (.Type == "'"$TYPE"'") | .ResourceRecords[0].Value' > /tmp/current_route53_value
+jq -r '.ResourceRecordSets[] | select (.Name == "'"$NAME."'") | select (.Type == "'"$TYPE"'") | .ResourceRecords[0].Value' > /tmp/current_route53_value
 
 cat /tmp/current_route53_value
 
@@ -32,7 +32,7 @@ echo "IP Changed, Updating Records"
 #prepare route 53 payload
 cat > /tmp/route53_changes.json << EOF
     {
-      "Comment":"Updated From DDNS Shell Script",
+      "Comment":"Updated From DynamicIp Shell Script",
       "Changes":[
         {
           "Action":"UPSERT",
@@ -42,8 +42,21 @@ cat > /tmp/route53_changes.json << EOF
                 "Value":"$IP"
               }
             ],
-            "Name":"$NAME",
-            "Type":"$TYPE",
+            "Name":"minecraft.lesdeuxtours.be",
+            "Type":"A",
+            "TTL":$TTL
+          }
+        },
+        {
+          "Action":"UPSERT",
+          "ResourceRecordSet":{
+            "ResourceRecords":[
+              {
+                "Value":"$IP"
+              }
+            ],
+            "Name":"nextcloud.lesdeuxtours.be",
+            "Type":"A",
             "TTL":$TTL
           }
         }
