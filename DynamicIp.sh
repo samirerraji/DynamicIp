@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #Variable Declaration - Change These
-HOSTED_ZONE_ID="Z0124700118850IKIAMPV"
-NAME="minecraft.lesdeuxtours.be"
+HOSTED_ZONE_ID=$ZONE_ID
+NAME=$DNS1
 TYPE="A"
 TTL=60
 
@@ -42,24 +42,11 @@ cat > /tmp/route53_changes.json << EOF
                 "Value":"$IP"
               }
             ],
-            "Name":"minecraft.lesdeuxtours.be",
+            "Name":"$DNS1",
             "Type":"A",
             "TTL":$TTL
           }
-        },
-        {
-          "Action":"UPSERT",
-          "ResourceRecordSet":{
-            "ResourceRecords":[
-              {
-                "Value":"$IP"
-              }
-            ],
-            "Name":"nextcloud.lesdeuxtours.be",
-            "Type":"A",
-            "TTL":$TTL
-          }
-        }
+        }       }
       ]
     }
 EOF
