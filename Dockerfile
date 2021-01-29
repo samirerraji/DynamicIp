@@ -17,8 +17,8 @@ RUN yum update -y \
   && yum install -y less groff jq \
   && yum clean all
 
-ENV AWS_ACCESS_KEY_ID AKIAUHGAJFWARCLGOHXL
-ENV AWS_SECRET_ACCESS_KEY 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
+ENV AWS_ACCESS_KEY_ID
+ENV AWS_SECRET_ACCESS_KEY
 
 
 COPY ./DynamicIp.sh /DynamicIp.sh
