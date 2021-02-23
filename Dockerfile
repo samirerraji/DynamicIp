@@ -17,10 +17,9 @@ RUN yum update -y \
   && yum install -y less groff jq \
   && yum clean all
 
-ENV AWS_ACCESS_KEY_ID
-ENV AWS_SECRET_ACCESS_KEY
+#probably should mount /root/.aws
+COPY ./DynamicIp.sh ~/DynamicIp.sh
+COPY ./settings/credentials.sample ~/.aws/credentials
+COPY ./settings/settings.json.sample ~/.aws/settings.json
 
-
-COPY ./DynamicIp.sh /DynamicIp.sh
-
-ENTRYPOINT ["/DynamicIp.sh"]
+ENTRYPOINT ["~/DynamicIp.sh"]
