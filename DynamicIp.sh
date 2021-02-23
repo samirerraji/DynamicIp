@@ -2,7 +2,7 @@
 
 #Variable Declaration - Change These
 HOSTED_ZONE_ID=$ZONE_ID
-NAME=$DNS1
+NAME=$DNS
 TYPE="A"
 TTL=60
 
@@ -46,7 +46,7 @@ cat > /tmp/route53_changes.json << EOF
             "Type":"A",
             "TTL":$TTL
           }
-        }       }
+        }
       ]
     }
 EOF
