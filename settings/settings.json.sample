@@ -1,0 +1,5 @@
+{
+    "ZONE_ID":"",
+    "DNSTOCHECK":"blog.example.org",
+    "DNSTOUPDATE":"*.example.org"
+}
