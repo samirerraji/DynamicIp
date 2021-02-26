@@ -1,4 +1,4 @@
-FROM amazonlinux:2 as installer
+FROM amazonlinux:latest as installer
 RUN yum update -y \
   && yum install -y unzip \
   && curl https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip -o awscli-exe-linux-x86_64.zip \
@@ -10,7 +10,7 @@ RUN yum update -y \
   # may be present in /usr/local/bin of the installer stage.
   && ./aws/install --bin-dir /aws-cli-bin/
 
-FROM amazonlinux:2
+FROM amazonlinux:latest
 COPY --from=installer /usr/local/aws-cli/ /usr/local/aws-cli/
 COPY --from=installer /aws-cli-bin/ /usr/local/bin/
 RUN yum update -y \
@@ -18,8 +18,8 @@ RUN yum update -y \
   && yum clean all
 
 #probably should mount /root/.aws
-COPY ./DynamicIp.sh ~/DynamicIp.sh
-COPY ./settings/credentials.sample ~/.aws/credentials
-COPY ./settings/settings.json.sample ~/.aws/settings.json
+COPY DynamicIp.sh /root/DynamicIp.sh
+COPY settings/credentials.sample /root/
+COPY settings/settings.json.sample /root/
 
-ENTRYPOINT ["~/DynamicIp.sh"]
+ENTRYPOINT ["/root/DynamicIp.sh"]

@@ -1,8 +1,15 @@
 #!/bin/bash
-
+FILE=$HOME/.aws/settings.json
+if [ ! -e "$FILE" ]; then
+    echo "settings do not exist in $FILE, rename sample files"
+    echo "Don't forget to map $HOME/.aws"
+    mv $HOME/*.sample $HOME/.aws/
+    exit
+fi
 #Variable Declaration - Change These
-HOSTED_ZONE_ID=$ZONE_ID
-NAME=$DNS
+HOSTED_ZONE_ID=$(cat $HOME/.aws/settings.json | jq -r ".ZONE_ID")
+NAME=$(cat $HOME/.aws/settings.json | jq -r ".DNSTOCHECK")
+UPDATE=$(cat $HOME/.aws/settings.json | jq -r ".DNSTOUPDATE")
 TYPE="A"
 TTL=60
 
@@ -42,7 +49,7 @@ cat > /tmp/route53_changes.json << EOF
                 "Value":"$IP"
               }
             ],
-            "Name":"$DNS1",
+            "Name":"$UPDATE",
             "Type":"A",
             "TTL":$TTL
           }
